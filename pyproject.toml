@@ -1,0 +1,18 @@
+[project]
+name = "nonebot-plugin-appstore-gameranking"
+version = "0.1.0"
+description = "NoneBot2 插件：App Store 畅销榜查询"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "nonebot2>=2.0.0",
+  "httpx>=0.24.0",
+  "requests>=2.30.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/yourname/nonebot-plugin-appstore-gameranking"
+
+[tool.nonebot]
+platform = ["onebot.v11"]
+plugins = ["nonebot_plugin_appstore_gameranking"]
