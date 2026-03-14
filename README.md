@@ -71,4 +71,4 @@ plugins = ["nonebot_plugin_appstore_gameranking"]
 ## 📌 注意
 
 - 插件依赖网络请求 https://itunes.apple.com，请确保机器能访问该接口。
-- 单次抓取默认最多200条榜单，超出会自动截断。
+- 由于苹果的限制，单次抓取默认最多100条榜单
