@@ -45,7 +45,13 @@
 
 ## 🧩 安装
 
-在 NoneBot 项目中，使用 `pip` 安装本插件包：
+在 NoneBot 项目根目录使用 NB-CLI 安装（推荐）：
+
+```bash
+nb plugin install nonebot-plugin-appstore-gameranking
+```
+
+也可以使用 pip 安装：
 
 ```bash
 pip install nonebot-plugin-appstore-gameranking

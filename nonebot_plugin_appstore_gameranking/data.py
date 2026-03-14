@@ -1,9 +1,9 @@
-import requests
+import httpx
 from typing import List, Dict
 
 
-def get_appstore_top_grossing(country: str = "cn", limit: int = 200) -> List[Dict]:
-    """爬取 App Store 畅销榜。
+async def get_appstore_top_grossing(country: str = "cn", limit: int = 200) -> List[Dict]:
+    """异步爬取 App Store 畅销榜。
     返回包含排名、应用名称、App ID、开发者等字段的列表。
     """
     if limit < 1:
@@ -18,20 +18,21 @@ def get_appstore_top_grossing(country: str = "cn", limit: int = 200) -> List[Dic
     }
 
     try:
-        response = requests.get(api_url, headers=headers, timeout=10)
-        response.raise_for_status()
-        data = response.json()
-        app_list = []
-        for rank, item in enumerate(data.get("feed", {}).get("entry", []), start=1):
-            app_list.append({
-                "排名": rank,
-                "应用名称": item["im:name"]["label"],
-                "App ID": item["id"]["attributes"]["im:id"],
-                "开发者": item["im:artist"]["label"],
-                "分类名称": item["category"]["attributes"]["label"],
-                "应用链接": item["id"]["label"]
-            })
-        return app_list
+        async with httpx.AsyncClient(timeout=10.0, headers=headers) as client:
+            response = await client.get(api_url)
+            response.raise_for_status()
+            data = response.json()
+            app_list = []
+            for rank, item in enumerate(data.get("feed", {}).get("entry", []), start=1):
+                app_list.append({
+                    "排名": rank,
+                    "应用名称": item["im:name"]["label"],
+                    "App ID": item["id"]["attributes"]["im:id"],
+                    "开发者": item["im:artist"]["label"],
+                    "分类名称": item["category"]["attributes"]["label"],
+                    "应用链接": item["id"]["label"]
+                })
+            return app_list
     except Exception:
         return []
 

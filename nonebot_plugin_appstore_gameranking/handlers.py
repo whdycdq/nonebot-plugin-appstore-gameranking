@@ -1,4 +1,4 @@
-from nonebot import on_command, on_keyword
+from nonebot import on_command
 from nonebot.adapters.onebot.v11 import Bot, Event
 from nonebot.params import CommandArg
 from nonebot.adapters.onebot.v11.message import Message
@@ -22,7 +22,7 @@ def format_target_rankings(apps, target_names):
 async def handle_appstore_cmd(bot: Bot, event: Event, arg: Message = CommandArg()):
     text = arg.extract_plain_text().strip()
     if not text:
-        apps = get_appstore_top_grossing(country="cn", limit=200)
+        apps = await get_appstore_top_grossing(country="cn", limit=100)
         await appstore_cmd.finish(format_target_rankings(apps, DEFAULT_GAMES))
         return
 
@@ -34,7 +34,7 @@ async def handle_appstore_cmd(bot: Bot, event: Event, arg: Message = CommandArg(
         return
 
     if parts[0] == "debug":
-        apps = get_appstore_top_grossing(country="cn", limit=200)
+        apps = await get_appstore_top_grossing(country="cn", limit=100)
         raw_lines = ["[DEBUG] 抓取榜单前10原始结果："]
         for i, app in enumerate(apps[:10], 1):
             raw_lines.append(f"{i}. {app.get('应用名称', 'N/A')} | AppID {app.get('App ID', 'N/A')}")
@@ -51,20 +51,20 @@ async def handle_appstore_cmd(bot: Bot, event: Event, arg: Message = CommandArg(
         if not names:
             await appstore_cmd.finish("请提供目标游戏名称列表，例如：/appstore 目标 原神,崩坏:星穹铁道")
             return
-        apps = get_appstore_top_grossing(country="cn", limit=200)
+        apps = await get_appstore_top_grossing(country="cn", limit=100)
         await appstore_cmd.finish(format_target_rankings(apps, names))
         return
 
     if parts[0] in ["全榜", "full", "all"]:
         limit = 100
         if len(parts) >= 2 and parts[1].isdigit():
-            limit = max(1, min(int(parts[1]), 200))
-        apps = get_appstore_top_grossing(country="cn", limit=limit)
+            limit = max(1, min(int(parts[1]), 100))
+        apps = await get_appstore_top_grossing(country="cn", limit=limit)
         msg = [f"App Store 畅销榜（中国区）前{min(limit, len(apps))}："]
         for i, app in enumerate(apps[:min(limit, 20)], 1):
             msg.append(f"{i}. {app['应用名称']} ({app['开发者']})")
         await appstore_cmd.finish("\n".join(msg))
         return
 
-    apps = get_appstore_top_grossing(country="cn", limit=200)
+    apps = await get_appstore_top_grossing(country="cn", limit=100)
     await appstore_cmd.finish(format_target_rankings(apps, DEFAULT_GAMES))
