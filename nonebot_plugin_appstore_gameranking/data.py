@@ -41,9 +41,10 @@ def filter_and_sort_target_apps(all_apps: List[Dict], target_names: List[str]) -
     target_apps = []
     unranked_apps = []
     for name in target_names:
+        name = name.strip()
         found = False
         for app in all_apps:
-            if name in app.get("应用名称", ""):
+            if app.get("应用名称", "").strip() == name:
                 target_apps.append({
                     "游戏名称": name,
                     "排名": app["排名"],
@@ -56,7 +57,7 @@ def filter_and_sort_target_apps(all_apps: List[Dict], target_names: List[str]) -
         if not found:
             unranked_apps.append({
                 "游戏名称": name,
-                "排名": "未上榜（前200名内）",
+                "排名": "未上榜（前100名内）",
                 "完整应用名": name,
                 "开发者": "未知",
                 "App ID": "未知"

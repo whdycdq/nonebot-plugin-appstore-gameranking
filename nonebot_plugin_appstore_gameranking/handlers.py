@@ -7,14 +7,14 @@ from .data import get_appstore_top_grossing, filter_and_sort_target_apps
 
 appstore_cmd = on_command("appstore", aliases={"appstore榜单", "appstore排名"}, priority=5, block=True)
 
-DEFAULT_GAMES = ["原神", "崩坏：星穹铁道", "鸣潮", "明日方舟：终末地", "绝区零"]
+DEFAULT_GAMES = ["原神·空月之歌", "崩坏：星穹铁道", "鸣潮", "明日方舟：终末地", "绝区零", "明日方舟"]
 
 
 def format_target_rankings(apps, target_names):
     filtered = filter_and_sort_target_apps(apps, target_names)
     lines = ["🎮 指定游戏排名："]
     for item in filtered:
-        lines.append(f"{item['游戏名称']}：{item['排名']}（{item['完整应用名']}）")
+        lines.append(f"{item['游戏名称']}：{item['排名']}")
     return "\n".join(lines)
 
 
@@ -56,7 +56,7 @@ async def handle_appstore_cmd(bot: Bot, event: Event, arg: Message = CommandArg(
         return
 
     if parts[0] in ["全榜", "full", "all"]:
-        limit = 200
+        limit = 100
         if len(parts) >= 2 and parts[1].isdigit():
             limit = max(1, min(int(parts[1]), 200))
         apps = get_appstore_top_grossing(country="cn", limit=limit)
