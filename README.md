@@ -1,126 +1,74 @@
-<div align="center">
-  <a href="https://v2.nonebot.dev/store"><img src="https://github.com/A-kirami/nonebot-plugin-template/blob/resources/nbp_logo.png" width="180" height="180" alt="NoneBotPluginLogo"></a>
-  <br>
-  <p><img src="https://github.com/A-kirami/nonebot-plugin-template/blob/resources/NoneBotPlugin.svg" width="240" alt="NoneBotPluginText"></p>
-</div>
+﻿# nonebot-plugin-appstore-gameranking
 
-<div align="center">
+一个 NoneBot2 插件，实时查询 App Store 畅销榜，并输出指定游戏在榜单中的排名。
 
-# nonebot-plugin-template
+## 📦 插件介绍
 
-_✨ NoneBot 插件简单描述 ✨_
+- 插件名：`nonebot_plugin_appstore_gameranking`
+- 功能：抓取 App Store 中国区畅销榜（Top Grossing），支持默认目标游戏排名、全榜输出、目标自定义、调试信息。
+- 主要命令：`/appstore`
 
+## ⚙️ 功能与指令
 
-<a href="./LICENSE">
-    <img src="https://img.shields.io/github/license/owner/nonebot-plugin-template.svg" alt="license">
-</a>
-<a href="https://pypi.python.org/pypi/nonebot-plugin-template">
-    <img src="https://img.shields.io/pypi/v/nonebot-plugin-template.svg" alt="pypi">
-</a>
-<img src="https://img.shields.io/badge/python-3.9+-blue.svg" alt="python">
+### /appstore（默认）
+输出默认关注游戏的排名：
+- 原神·空月之歌
+- 崩坏：星穹铁道
+- 鸣潮
+- 明日方舟：终末地
+- 绝区零
+- 明日方舟
 
-</div>
+### /appstore 帮助
+```
+/appstore 帮助
+```
+输出命令用法说明。
 
-这是一个 nonebot2 插件项目的模板库, 你可以直接使用本模板创建你的 nonebot2 插件项目的仓库
+### /appstore debug
+```
+/appstore debug
+```
+输出抓取的原始榜单前10条与筛选结果，用于调试。
 
-<details open>
-<summary>模板库使用方法</summary>
+### /appstore 全榜 <N>
+```
+/appstore 全榜 20
+```
+输出前 N 名畅销榜（N 最大 200，默认 100）。
 
-1. 点击 [![start-course](https://user-images.githubusercontent.com/1221423/235727646-4a590299-ffe5-480d-8cd5-8194ea184546.svg)](https://github.com/new?template_owner=A-kirami&template_name=nonebot-plugin-template&owner=%40me&name=nonebot-plugin-&visibility=public) 创建仓库
-2. 在创建好的新仓库中, 在 "Add file" 菜单中选择 "Create new file", 在新文件名处输入`LICENSE`, 此时在右侧会出现一个 "Choose a license template" 按钮, 点击此按钮选择开源协议模板, 然后在最下方提交新文件到主分支
-3. 全局替换`owner`为仓库所有者ID; 全局替换`nonebot-plugin-template`为插件名; 全局替换`nonebot_plugin_template`为包名; 修改 python 徽标中的版本为你插件的运行所需版本
-4. 修改 README 中的插件名和插件描述, 并在下方填充相应的内容
+### /appstore 目标 <游戏1,游戏2,...>
+```
+/appstore 目标 原神,崩坏：星穹铁道
+```
+输出指定目标游戏的排名（若未上榜则显示“未上榜（前100名内）”）。
 
-</details>
+## 🧩 安装
 
-> [!NOTE]
-> 模板库中自带了一个发布工作流, 你可以使用此工作流自动发布你的插件到 pypi
+在 NoneBot 项目中，使用 `pip` 安装本插件包：
 
-<details>
-<summary>配置发布工作流</summary>
+```bash
+pip install nonebot-plugin-appstore-gameranking
+```
 
-1. 前往 https://pypi.org/manage/account/#api-tokens 并创建一个新的 API 令牌。创建成功后不要关闭页面，不然你将无法再次查看此令牌。
-2. 在单独的浏览器选项卡或窗口中，打开 [Actions secrets and variables](./settings/secrets/actions) 页面。你也可以在 Settings - Secrets and variables - Actions 中找到此页面。
-3. 点击 New repository secret 按钮，创建一个名为 `PYPI_API_TOKEN` 的新令牌，并从第一步复制粘贴令牌。
+在 `pyproject.toml` 的 `[tool.nonebot]` 部分加入：
 
-</details>
+```toml
+plugins = ["nonebot_plugin_appstore_gameranking"]
+```
 
-> [!IMPORTANT]
-> 这个发布工作流需要 pyproject.toml 文件, 并且只支持 [PEP 621](https://peps.python.org/pep-0621/) 标准的 pyproject.toml 文件
+## 🧪 本地测试
 
-<details>
-<summary>触发发布工作流</summary>
-从本地推送任意 tag 即可触发。
+在开发项目里直接运行 NoneBot，插件会自动注册 `/appstore` 命令。
 
-创建 tag:
+## 🧠 源码结构
 
-    git tag <tag_name>
+- `nonebot_plugin_appstore_gameranking/__init__.py`：插件元信息
+- `nonebot_plugin_appstore_gameranking/data.py`：App Store 爬取与筛选辅助函数
+- `nonebot_plugin_appstore_gameranking/handlers.py`：指令解析与结果格式化
+- `appstore_scraper_demo.py`：demo 演示脚本
 
-推送本地所有 tag:
+## 📌 注意
 
-    git push origin --tags
-
-</details>
-
-## 📖 介绍
-
-这里是插件的详细介绍部分
-
-## 💿 安装
-
-<details open>
-<summary>使用 nb-cli 安装</summary>
-在 nonebot2 项目的根目录下打开命令行, 输入以下指令即可安装
-
-    nb plugin install nonebot-plugin-template
-
-</details>
-
-<details>
-<summary>使用包管理器安装</summary>
-在 nonebot2 项目的插件目录下, 打开命令行, 根据你使用的包管理器, 输入相应的安装命令
-
-<details>
-<summary>pip</summary>
-
-    pip install nonebot-plugin-template
-</details>
-<details>
-<summary>pdm</summary>
-
-    pdm add nonebot-plugin-template
-</details>
-<details>
-<summary>poetry</summary>
-
-    poetry add nonebot-plugin-template
-</details>
-<details>
-<summary>conda</summary>
-
-    conda install nonebot-plugin-template
-</details>
-
-打开 nonebot2 项目根目录下的 `pyproject.toml` 文件, 在 `[tool.nonebot]` 部分追加写入
-
-    plugins = ["nonebot_plugin_template"]
-
-</details>
-
-## ⚙️ 配置
-
-在 nonebot2 项目的`.env`文件中添加下表中的必填配置
-
-| 配置项 | 必填 | 默认值 | 说明 |
-|:-----:|:----:|:----:|:----:|
-| 配置项1 | 是 | 无 | 配置说明 |
-| 配置项2 | 否 | 无 | 配置说明 |
-
-## 🎉 使用
-### 指令表
-| 指令 | 权限 | 需要@ | 范围 | 说明 |
-|:-----:|:----:|:----:|:----:|:----:|
-| 指令1 | 主人 | 否 | 私聊 | 指令说明 |
-| 指令2 | 群员 | 是 | 群聊 | 指令说明 |
-### 效果图
-如果有效果图的话
+- 插件依赖网络请求 https://itunes.apple.com，请确保机器能访问该接口。
+- 单次抓取默认最多200条榜单，超出会自动截断。

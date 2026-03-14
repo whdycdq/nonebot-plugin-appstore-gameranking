@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourname/nonebot-plugin-appstore-gameranking"
+Homepage = "https://github.com/whdycdq/nonebot-plugin-appstore-gameranking"
 
 [tool.nonebot]
 platform = ["onebot.v11"]
