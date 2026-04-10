@@ -19,6 +19,9 @@
 - 绝区零
 - 明日方舟
 
+默认游戏列表会写入 localstore 配置文件：`~/.config/nonebot2/nonebot_plugin_appstore_gameranking/default_games.json`。
+你可以随时修改该文件中的游戏名称来更改需要关注的默认游戏。
+
 ### /appstore 帮助
 ```
 /appstore 帮助
@@ -42,6 +45,12 @@
 /appstore 目标 原神,崩坏：星穹铁道
 ```
 输出指定目标游戏的排名（若未上榜则显示“未上榜（前100名内）”）。
+
+### /appstore 添加 <游戏名>
+```
+/appstore 添加 原神·空月之歌
+```
+将游戏添加到默认关注列表，并保存到 localstore 配置文件中，支持重复检查。
 
 ## 🧩 安装
 

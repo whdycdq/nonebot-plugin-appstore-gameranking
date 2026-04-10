@@ -38,6 +38,17 @@ def get_default_games():
     return DEFAULT_GAMES_DEFAULT.copy()
 
 
+def save_default_games(games):
+    try:
+        DEFAULT_GAMES_FILE.write_text(
+            json.dumps(games, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        return True
+    except Exception:
+        return False
+
+
 def format_target_rankings(apps, target_names):
     filtered = filter_and_sort_target_apps(apps, target_names)
     lines = ["🎮 指定游戏排名："]
@@ -57,7 +68,7 @@ async def handle_appstore_cmd(bot: Bot, event: Event, arg: Message = CommandArg(
     parts = text.split()
     if parts[0] in ["帮助", "help", "h", "?", "？"]:
         await appstore_cmd.finish(
-            "用法：\n1. /appstore -> 默认输出指定游戏排名\n2. /appstore debug -> 输出抓取原始栏目信息+筛选结果\n3. /appstore 全榜 <N> -> 输出前N名榜单简要\n4. /appstore 目标 原神,崩坏:星穹铁道 -> 输出目标游戏排名"
+            "用法：\n1. /appstore -> 默认输出指定游戏排名\n2. /appstore debug -> 输出抓取原始栏目信息+筛选结果\n3. /appstore 全榜 <N> -> 输出前N名榜单简要\n4. /appstore 目标 原神,崩坏:星穹铁道 -> 输出目标游戏排名\n5. /appstore 添加 <游戏名> -> 将游戏添加到默认关注列表"
         )
         return
 
@@ -72,6 +83,24 @@ async def handle_appstore_cmd(bot: Bot, event: Event, arg: Message = CommandArg(
         for item in filtered:
             raw_lines.append(f"{item['游戏名称']} -> {item['排名']} | {item['完整应用名']}")
         await appstore_cmd.finish("\n".join(raw_lines))
+        return
+
+    if parts[0] in ["添加", "add"]:
+        name = " ".join(parts[1:]).strip()
+        if not name:
+            await appstore_cmd.finish("请提供要添加的游戏名称，例如：/appstore 添加 原神·空月之歌")
+            return
+        games = get_default_games()
+        if name in games:
+            await appstore_cmd.finish(f"游戏“{name}”已在默认关注列表中，无需重复添加。")
+            return
+        games.append(name)
+        if save_default_games(games):
+            await appstore_cmd.finish(
+                f"已将游戏“{name}”添加到默认关注列表。\n当前默认关注游戏：\n" + "\n".join(games)
+            )
+        else:
+            await appstore_cmd.finish("保存失败，请检查文件权限或稍后重试。")
         return
 
     if parts[0] in ["目标", "target", "filter"]:
